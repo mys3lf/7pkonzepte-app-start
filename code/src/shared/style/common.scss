@@ -1,0 +1,221 @@
+@import "../shared/style/bootstrap.min.css"; 
+
+	// VARIABLES
+
+	$small: 300px;
+	$medium: 600px;
+	$large: 900px;
+
+	// MIXINS
+
+	@mixin prefixr($property, $value, $prefixes: (webkit, moz, ms, o) ) {
+      @each $prefix in $prefixes {
+        -#{$prefix}-#{$property}: #{$value};
+      }
+      #{$property}: #{$value};
+	}
+
+	@mixin whiteSpaceReset() {
+		  font-size: 0;
+	}
+
+	@mixin keyframes($name) {
+	  @-webkit-keyframes #{$name} {
+	    @content;
+	  }
+	  @-moz-keyframes #{$name} {
+	    @content;
+	  }
+	  @-ms-keyframes #{$name} {
+	    @content;
+	  }
+	  @keyframes #{$name} {
+	    @content;
+	  }
+	}
+
+	@mixin ribbon($color: #e74c3c, $textColor: white, $size: 30px, $ribbonPosition: bottom) {
+
+      		// if the direction of the ribbon is neither "bottom" or "top", set the position to "bottom"
+      @if ($ribbonPosition != bottom and $ribbonPosition != top) {
+        $ribbonPosition: bottom;
+      }
+
+      @if ($ribbonPosition == bottom) {
+          //@include translate(30px);
+          @include prefixr(transform, translateY(30px));
+      }
+      @else {
+          @include prefixr(transform, translateY(-30px));
+      }
+
+      -webkit-animation: fadeIn .7s ease-in forwards;
+      animation: fadeIn .7s ease-in forwards;
+
+      span {
+       
+        width: calc(100% - 70px);
+        position: relative;
+        display: inline-block;
+        background: $color;
+        color: $textColor;
+        text-align: center;
+        -webkit-box-sizing: border-box;
+        min-width: 160px;
+        height: $size*2;
+        line-height: $size*2;
+        -webkit-transform-style: preserve-3d;
+        span {
+          width: 100%;
+        }
+
+        &:before,
+        &:after {
+          content: "";
+          position: absolute;
+          display: block;
+
+          #{$ribbonPosition}: -$size/2;
+
+          border: $size solid darken($color, 20%);
+          z-index: -1;
+          -webkit-transform: translateZ(-1px);
+        }
+
+        &:before {
+          left: -$size*2 + $size/2;
+          border-left-color: transparent;
+        }
+
+        &:after {
+          right: -$size*2 + $size/2;
+          border-right-color: transparent;
+        }
+
+        & span:before,
+        & span:after {
+          content: "";
+          position: absolute;
+          display: block;
+          border-style: solid;
+
+          #{$ribbonPosition}: -$size/2;
+
+          @if $ribbonPosition == bottom {
+            border-color: darken($color, 50%) transparent transparent transparent;
+          }
+          @else {
+            border-color: transparent transparent darken($color, 50%) transparent;
+          }
+
+        }
+
+        & span:before {
+          left: 0;
+
+          @if $ribbonPosition == bottom {
+            border-width: $size/2 0 0 $size/2;
+          }
+          @else {
+            border-width: 0 0 $size/2 $size/2;
+          }
+
+        }
+
+        & span:after {
+          right: 1px;
+
+          @if $ribbonPosition == bottom {
+            border-width: $size/2 $size/2 0 0;
+          }
+          @else {
+             border-width: 0 $size/2 $size/2 0;
+          }
+        }
+      }
+	}
+
+	@mixin fromWidth($size) {
+		  @media screen and(min-width: $size) {
+			    @content;
+		  }
+	}
+
+	@mixin medium() {
+		  @include fromWidth($medium) {
+			    @content;
+		  }
+	}
+
+	@mixin large() {
+  @include fromWidth($large) {
+    @content;
+  }
+	}
+
+	// ANIMATION
+	@include keyframes(fadeIn) {
+  		0% { opacity: 0; }
+		  100% { @include prefixr(transform,translateY(0)); opacity: 1; }
+	}
+
+
+.ribbon-wrapper {
+  opacity: 0;
+  -webkit-animation: fadeIn .7s ease-in forwards;
+  animation: fadeIn .7s ease-in forwards;
+  font-size: 20px;
+  margin: 40px auto 40px;
+}
+
+.big {
+  @include ribbon(#d1e0eb, #193c5d, 15px);
+  
+  @include medium {
+    @include ribbon(#d1e0eb, #193c5d, 20px);
+    font-size: 22px;
+      font-weight: bold;
+    }
+
+  @include large {
+      @include ribbon(#d1e0eb, #193c5d, 30px);
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+}
+
+.medium {
+  @include ribbon(#d1e0eb, #193c5d, 10px);
+  font-size: 16px;
+  
+  @include medium {
+	    @include ribbon(#d1e0eb,#193c5d,15px);
+	    font-size: 18px;
+      font-weight: bold;
+	  }
+
+  @include large {
+    @include ribbon(#d1e0eb,#193c5d, 20px);
+    font-size: 20px;
+      font-weight: bold;
+  }
+
+}
+
+.small {
+  @include ribbon(#d1e0eb, #193c5d, 5px);
+  font-size: 10px;
+
+  @include medium {
+    @include ribbon(#d1e0eb, #193c5d, 10px);
+    font-size: 12px;
+      font-weight: bold;
+  }
+
+  @include large {
+    @include ribbon(#d1e0eb, #193c5d, 15px);
+    font-size: 14px;
+      font-weight: bold;
+  }
+}
