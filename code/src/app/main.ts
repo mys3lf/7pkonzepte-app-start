@@ -44,7 +44,7 @@ export class App {
         }
     }
 
-    public static Factory(): Injectable<IDirectiveFactory> {
+    public static Factory() {
         var directive = () => {
             return new App();
         };
