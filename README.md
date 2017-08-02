@@ -2,7 +2,7 @@
 
 This is our cordova app start up project.
 
-##Setup
+## Setup
 
 - Download everything
 - Open node.js command line 
@@ -11,8 +11,13 @@ This is our cordova app start up project.
 - Open Browser with "localhost:1337"
 - Done
 
-##Coding
+## Coding
 
-Use Visual Code 
+Use Visual Code
+
+## TODO
+
+Replace default icons
+Test everything
 
 
